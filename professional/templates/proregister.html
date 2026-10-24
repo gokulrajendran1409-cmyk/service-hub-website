@@ -1,0 +1,226 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Professional Registration | ServiceHub</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+
+    <link rel="stylesheet" href="{% static 'css/proregister.css' %}">
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <div class="container">
+            <a href="{% url 'index' %}" class="brand">
+                ServiceHub<span style="color:#D7B982">.</span>
+            </a>
+
+            <a href="{% url 'index' %}"
+               class="text-white text-decoration-none small">
+                Back to Home
+            </a>
+        </div>
+    </nav>
+
+<div class="container">
+    <div class="card register-card">
+
+        <div class="register-header text-center">
+            <h2 class="fw-bold">Join ServiceHub</h2>
+            <p class="mb-0">Register as a service professional</p>
+        </div>
+
+        <div class="card-body p-4 p-md-5">
+
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags|default:'info' }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+
+            {% if error %}
+                <div class="alert alert-danger">{{ error }}</div>
+            {% endif %}
+
+            {% if form.errors %}
+                <div class="alert alert-danger">
+                    <strong class="d-block mb-1">Please correct the following errors:</strong>
+                    <ul class="mb-0 ps-3">
+                        {% for field, errors in form.errors.items %}
+                            {% for err in errors %}
+                                <li>{{ field|title }}: {{ err }}</li>
+                            {% endfor %}
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+
+            <form method="POST"
+                  action="{% url 'proregister' %}"
+                  enctype="multipart/form-data">
+                {% csrf_token %}
+
+                <h5 class="mb-3">Personal & Contact Information</h5>
+
+                <div class="row g-3">
+
+                    <div class="col-md-6">
+                        <label class="form-label">Full Name <span class="required">*</span></label>
+                        <input type="text" name="name" class="form-control"
+                               placeholder="Enter your full name" value="{{ form.name.value|default:'' }}" required>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label">Phone Number <span class="required">*</span></label>
+                        <input type="tel" name="phone" class="form-control"
+                               placeholder="Enter 10-digit phone number"
+                               pattern="[0-9]{10}" maxlength="10" value="{{ form.phone.value|default:'' }}" required>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label">Email Address <span class="required">*</span></label>
+                        <input type="email" name="email" class="form-control"
+                               placeholder="Enter email address" value="{{ form.email.value|default:'' }}" required>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label">Profile Picture</label>
+                        <input type="file" name="profile_pic" class="form-control"
+                               accept="image/*">
+                    </div>
+
+                    <div class="col-12">
+                        <label class="form-label">Residential Address <span class="required">*</span></label>
+                        <textarea name="address" class="form-control" rows="2"
+                                  placeholder="Enter your complete address" required>{{ form.address.value|default:'' }}</textarea>
+                    </div>
+
+                </div>
+
+                <hr class="my-4">
+
+                <h5 class="mb-3">Professional Details & Pricing</h5>
+
+                <div class="row g-3">
+
+                    <div class="col-md-6">
+                        <label class="form-label">Service Category <span class="required">*</span></label>
+                        <select name="category" class="form-select" required>
+                            <option value="">Select your service</option>
+                            <option {% if form.category.value == "Electrical" %}selected{% endif %}>Electrical</option>
+                            <option {% if form.category.value == "Cleaning" %}selected{% endif %}>Cleaning</option>
+                            <option {% if form.category.value == "CCTV & Security" %}selected{% endif %}>CCTV & Security</option>
+                            <option {% if form.category.value == "Gardening & Landscaping" %}selected{% endif %}>Gardening & Landscaping</option>
+                            <option {% if form.category.value == "Computer & Mobile Repair" %}selected{% endif %}>Computer & Mobile Repair</option>
+                            <option {% if form.category.value == "Photography & Videography" %}selected{% endif %}>Photography & Videography</option>
+                            <option {% if form.category.value == "Personal Care" %}selected{% endif %}>Personal Care</option>
+                            <option {% if form.category.value == "AC & Appliances" %}selected{% endif %}>AC & Appliances</option>
+                            <option {% if form.category.value == "Pest Control" %}selected{% endif %}>Pest Control</option>
+                            <option {% if form.category.value == "Home Improvement" %}selected{% endif %}>Home Improvement</option>
+                            <option {% if form.category.value == "Vehicle Services" %}selected{% endif %}>Vehicle Services</option>
+                            <option {% if form.category.value == "Personal & Daily Help" %}selected{% endif %}>Personal & Daily Help</option>
+                            <option {% if form.category.value == "Plumbing" %}selected{% endif %}>Plumbing</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label">Service Location / City</label>
+                        <input type="text" name="location" class="form-control"
+                               placeholder="e.g. Mumbai, Maharashtra" value="{{ form.location.value|default:'' }}">
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label">Years of Experience</label>
+                        <input type="number" name="experience" class="form-control"
+                               placeholder="e.g. 5" min="0" max="60" value="{{ form.experience.value|default:'' }}">
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label">Standard Service Charge (₹)</label>
+                        <input type="number" name="service_charge" class="form-control"
+                               placeholder="e.g. 499.00" step="0.01" min="0" value="{{ form.service_charge.value|default:'' }}">
+                    </div>
+
+                    <div class="col-12">
+                        <label class="form-label">Professional Bio / Description</label>
+                        <textarea name="description" class="form-control" rows="3"
+                                  placeholder="Describe your skills, work experience, certifications, and types of jobs you handle...">{{ form.description.value|default:'' }}</textarea>
+                    </div>
+
+                </div>
+
+                <hr class="my-4">
+
+                <h5 class="mb-3">Verification Documents</h5>
+
+                <div class="row g-3">
+
+                    <div class="col-md-6">
+                        <label class="form-label">Professional / Qualification Document</label>
+                        <input type="file" name="upload_doc" class="form-control"
+                               accept=".pdf,.jpg,.jpeg,.png">
+                        <small class="text-muted">PDF, JPG or PNG</small>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label">Identity Proof <span class="required">*</span></label>
+                        <input type="file" name="id_proof" class="form-control"
+                               accept=".pdf,.jpg,.jpeg,.png" required>
+                        <small class="text-muted">Upload an accepted identity document.</small>
+                    </div>
+
+                </div>
+
+                <hr class="my-4">
+
+                <h5 class="mb-3">Account Security</h5>
+
+                <div class="row g-3">
+
+                    <div class="col-md-6">
+                        <label class="form-label">Password <span class="required">*</span></label>
+                        <input type="password" name="password" class="form-control"
+                               placeholder="Create a password" minlength="8" required>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label">Confirm Password <span class="required">*</span></label>
+                        <input type="password" name="confirm_password" class="form-control"
+                               placeholder="Re-enter password" minlength="8" required>
+                    </div>
+
+                </div>
+
+                <div class="form-check mt-4">
+                    <input class="form-check-input" type="checkbox"
+                           id="agree" required>
+                    <label class="form-check-label" for="agree">
+                        I confirm that the information provided is correct.
+                    </label>
+                </div>
+
+                <button type="submit" class="btn btn-register w-100 mt-4">
+                    Register as Professional
+                </button>
+
+                <p class="text-center mt-3 mb-0">
+                    Already registered?
+                    <a href="{% url 'prologin' %}" class="text-success">
+                        Log in
+                    </a>
+                </p>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

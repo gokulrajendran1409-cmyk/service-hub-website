@@ -1,0 +1,607 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ServiceHub | Find Trusted Professionals Near You</title>
+
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap"
+          rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+
+<body>
+
+<div class="site-shell">
+
+    <!-- ================= NAVBAR ================= -->
+    <nav class="navbar navbar-expand-lg main-navbar">
+        <div class="container-fluid px-4 px-lg-5">
+
+            <a class="navbar-brand brand-name" href="#">
+                ServiceHub
+            </a>
+
+            <button class="navbar-toggler" type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#mainNavbar"
+                    aria-controls="mainNavbar"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="mainNavbar">
+
+                <ul class="navbar-nav mx-auto nav-links">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#home">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'services' %}">Services</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#how-it-works">How It Works</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#about">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contact">Contact</a>
+                    </li>
+                </ul>
+
+                <div class="nav-actions">
+                    <a href="{% url 'prologin' %}" class="btn btn-green nav-cta">
+                    Became a Professional
+                    </a>
+
+                    
+
+                    <a href="{% url 'login' %}" class="btn btn-green nav-cta">
+                        Login
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </nav>
+
+
+    <!-- ================= HERO ================= -->
+    <header class="hero-section" id="home">
+
+        <div class="hero-image"></div>
+        <div class="hero-overlay"></div>
+
+        <div class="container-fluid px-4 px-lg-5 hero-content">
+            <div class="row">
+                <div class="col-lg-6 col-xl-6">
+
+                    <p class="hero-eyebrow">
+                        <i class="bi bi-patch-check-fill"></i>
+                        YOUR TRUSTED LOCAL SERVICE PARTNER
+                    </p>
+
+                    <h1>
+                        Find Trusted<br>
+                        Professionals<br>
+                        Near You
+                    </h1>
+
+                    <p class="hero-description">
+                        Reliable experts for your home, personal
+                        and business needs.
+                    </p>
+
+                    <a href="{% url 'services' %}" class="btn btn-green hero-button">
+                        Explore Services
+                        <i class="bi bi-arrow-right"></i>
+                    </a>
+
+                </div>
+            </div>
+        </div>
+
+    </header>
+
+
+    <!-- ================= FEATURE CARDS ================= -->
+    <section class="feature-section" id="how-it-works">
+        <div class="container-fluid px-4 px-lg-5">
+
+            <div class="row g-3 g-xl-4">
+
+                <!-- Feature 1 -->
+                <div class="col-md-4">
+                    <div class="feature-card">
+
+                        <img
+                            src="https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=400&q=85"
+                            alt="Professional electrician at work"
+                            class="feature-image">
+
+                        <div class="feature-info">
+                            <div class="feature-heading">
+                                <i class="bi bi-shield-check feature-icon"></i>
+                                <h3>Verified<br>Professionals</h3>
+                            </div>
+
+                            <p>
+                                Background checked, ID verified
+                                and trusted experts.
+                            </p>
+
+                            <a href="{% url 'services' %}" class="btn btn-green feature-button">
+                                Explore Services <i class="bi bi-arrow-right"></i>
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Feature 2 -->
+                <div class="col-md-4">
+                    <div class="feature-card">
+
+                        <img
+                            src="https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?auto=format&fit=crop&w=400&q=85"
+                            alt="Mobile phone used for booking services"
+                            class="feature-image">
+
+                        <div class="feature-info">
+                            <div class="feature-heading">
+                                <i class="bi bi-clock-history feature-icon"></i>
+                                <h3>Quick<br>Booking</h3>
+                            </div>
+
+                            <p>
+                                Book in minutes, whenever
+                                you need help.
+                            </p>
+
+                            <a href="{% url 'services' %}" class="btn btn-green feature-button">
+                                Explore Services <i class="bi bi-arrow-right"></i>
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Feature 3 -->
+                <div class="col-md-4">
+                    <div class="feature-card">
+
+                        <img
+                            src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=400&q=85"
+                            alt="Secure digital payment"
+                            class="feature-image">
+
+                        <div class="feature-info">
+                            <div class="feature-heading">
+                                <i class="bi bi-shield-lock-fill feature-icon"></i>
+                                <h3>Secure<br>Payments</h3>
+                            </div>
+
+                            <p>
+                                Safe, secure and hassle-free
+                                transactions.
+                            </p>
+
+                            <a href="{% url 'services' %}" class="btn btn-green feature-button">
+                                Explore Services <i class="bi bi-arrow-right"></i>
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ================= POPULAR SERVICES ================= -->
+    <section class="popular-section" id="services">
+
+        <div class="container-fluid px-4 px-lg-5">
+
+            <div class="section-heading d-flex align-items-center justify-content-between">
+                <h2>Popular Services</h2>
+
+                <a href="{% url 'services' %}" class="view-all-link">
+                    View All Services
+                    <i class="bi bi-arrow-right"></i>
+                </a>
+            </div>
+
+            <div class="row g-3 g-lg-4">
+
+                <!-- Electrical -->
+                <div class="col-6 col-lg-3">
+                    <article class="service-card">
+
+                        <img
+                            src="{% static 'images/electrical.png' %}"
+                            alt="Electrical repair service">
+
+                        <div class="service-card-body">
+                            <h3>Electrical</h3>
+
+                            <p>
+                                Wiring, switchboard, lighting
+                                and electrical repairs.
+                            </p>
+
+                            <a href="#contact" class="btn btn-green service-button">
+                                Book Now <i class="bi bi-arrow-right"></i>
+                            </a>
+                        </div>
+
+                    </article>
+                </div>
+
+                <!-- Plumbing -->
+                <div class="col-6 col-lg-3">
+                    <article class="service-card">
+
+                        <img
+                            src="{% static 'images/plumbing.png' %}"
+                            alt="Plumber repairing a pipe">
+
+                        <div class="service-card-body">
+                            <h3>Plumbing</h3>
+
+                            <p>
+                                Leak repairs, pipe fitting,
+                                water heater and more.
+                            </p>
+
+                            <a href="#contact" class="btn btn-green service-button">
+                                Book Now <i class="bi bi-arrow-right"></i>
+                            </a>
+                        </div>
+
+                    </article>
+                </div>
+
+                <!-- Cleaning -->
+                <div class="col-6 col-lg-3">
+                    <article class="service-card">
+
+                        <img
+                            src="{% static 'images/cleaning.png' %}"
+                            alt="Home cleaning professional">
+
+                        <div class="service-card-body">
+                            <h3>Cleaning</h3>
+
+                            <p>
+                                Home cleaning, deep cleaning,
+                                office and commercial spaces.
+                            </p>
+
+                            <a href="#contact" class="btn btn-green service-button">
+                                Book Now <i class="bi bi-arrow-right"></i>
+                            </a>
+                        </div>
+
+                    </article>
+                </div>
+
+                <!-- AC Repair -->
+                <div class="col-6 col-lg-3">
+                    <article class="service-card">
+
+                        <img
+                            src="{% static 'images/ac.png' %}"
+                            alt="Air conditioning maintenance">
+
+                        <div class="service-card-body">
+                            <h3>AC &amp; Appliances</h3>
+
+                            <p>
+                                AC service, repair and
+                                appliance maintenance.
+                            </p>
+
+                            <a href="#contact" class="btn btn-green service-button">
+                                Book Now <i class="bi bi-arrow-right"></i>
+                            </a>
+                        </div>
+
+                    </article>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    
+
+   
+
+
+    <!-- ================= BOTTOM CTA ================= -->
+    <section class="bottom-section" id="about">
+
+        <div class="bottom-background"></div>
+        <div class="bottom-overlay"></div>
+
+        <div class="container-fluid bottom-content px-4 px-lg-5">
+
+            <div class="row g-4 align-items-center">
+
+                <!-- CTA text -->
+                <div class="col-lg-3">
+                    <div class="bottom-intro">
+
+                        <h2>
+                            Need a Hand<br>
+                            at Home?
+                        </h2>
+
+                        <p>
+                            Skilled professionals, ready
+                            to help you with every task.
+                        </p>
+
+                        <a href="{% url 'services' %}" class="btn btn-outline-light rounded-pill bottom-cta">
+                            Find a Professional
+                            <i class="bi bi-arrow-right"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <!-- Electrician -->
+                <div class="col-6 col-lg-3">
+                    <article class="bottom-service-card">
+
+                        <img
+                            src="https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=500&q=85"
+                            alt="Electrician">
+
+                        <div class="bottom-card-body">
+                            <h3>Electrician</h3>
+
+                            <p>
+                                Fixing, installation
+                                and maintenance.
+                            </p>
+
+                            <a href="#contact" class="btn btn-green bottom-book">
+                                Book Now <i class="bi bi-arrow-right"></i>
+                            </a>
+                        </div>
+
+                    </article>
+                </div>
+
+                <!-- Plumber -->
+                <div class="col-6 col-lg-3">
+                    <article class="bottom-service-card">
+
+                        <img
+                            src="https://images.unsplash.com/photo-1607472586893-edb57bdc0e39?auto=format&fit=crop&w=500&q=85"
+                            alt="Plumber">
+
+                        <div class="bottom-card-body">
+                            <h3>Plumber</h3>
+
+                            <p>
+                                Repairs, fittings and
+                                emergency service.
+                            </p>
+
+                            <a href="#contact" class="btn btn-green bottom-book">
+                                Book Now <i class="bi bi-arrow-right"></i>
+                            </a>
+                        </div>
+
+                    </article>
+                </div>
+
+                <!-- Cleaner -->
+                <div class="col-6 col-lg-3">
+                    <article class="bottom-service-card">
+
+                        <img
+                            src="https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=500&q=85"
+                            alt="Cleaner">
+
+                        <div class="bottom-card-body">
+                            <h3>Cleaner</h3>
+
+                            <p>
+                                Home, office and
+                                deep cleaning services.
+                            </p>
+
+                            <a href="#contact" class="btn btn-green bottom-book">
+                                Book Now <i class="bi bi-arrow-right"></i>
+                            </a>
+                        </div>
+
+                    </article>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= COMPLETE FOOTER ================= -->
+<footer class="urumb-footer" id="contact">
+
+    <div class="footer-main">
+        <div class="container-fluid px-4 px-lg-5">
+
+            <!-- Footer brand and newsletter -->
+            <div class="row gy-4 align-items-start footer-top">
+
+                <div class="col-lg-5">
+                    <a href="#home" class="footer-logo">ServiceHub</a>
+
+                    <p class="footer-description">
+                        Your trusted destination for everyday services.
+                        Discover local professionals for your home,
+                        personal and business needs.
+                    </p>
+
+                    <div class="footer-trust">
+                        <i class="bi bi-shield-check"></i>
+                        <span>Making everyday services simpler and more accessible.</span>
+                    </div>
+                </div>
+
+                <div class="col-lg-6 offset-lg-1">
+                    <div class="footer-newsletter">
+                        <h3>Stay connected with ServiceHub</h3>
+                        <p>
+                            Get updates about new services and platform features.
+                        </p>
+
+                        <form class="newsletter-form"
+                              action="#contact"
+                              method="get"
+                              onsubmit="event.preventDefault(); alert('Newsletter signup needs to be connected to a backend.');">
+
+                            <label for="newsletterEmail" class="visually-hidden">
+                                Email address
+                            </label>
+
+                            <input
+                                type="email"
+                                id="newsletterEmail"
+                                placeholder="Enter your email address"
+                                required>
+
+                            <button type="submit">
+                                Subscribe <i class="bi bi-arrow-right"></i>
+                            </button>
+                        </form>
+
+                        <small>
+                            We respect your privacy. You can unsubscribe at any time.
+                        </small>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="footer-divider"></div>
+
+            <!-- Footer link columns -->
+            <div class="row gy-4 footer-links-row">
+
+                <div class="col-6 col-md-3">
+                    <h4>Explore</h4>
+                    <ul class="footer-links">
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#services">Popular Services</a></li>
+                        <li><a href="#all-services">All Categories</a></li>
+                        <li><a href="#how-it-works">How It Works</a></li>
+                        <li><a href="#why-urumb">Why ServiceHub</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-6 col-md-3">
+                    <h4>Our Services</h4>
+                    <ul class="footer-links">
+                        <li><a href="#services">Electrical</a></li>
+                        <li><a href="#services">Plumbing</a></li>
+                        <li><a href="#services">Cleaning</a></li>
+                        <li><a href="#services">AC & Appliances</a></li>
+                        <li><a href="#all-services">More Services</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-6 col-md-3">
+                    <h4>For Professionals</h4>
+                    <ul class="footer-links">
+                        <li><a href="#contact">Join as a Professional</a></li>
+                        <li><a href="#contact">How It Works</a></li>
+                        <li><a href="#contact">Verification Process</a></li>
+                        <li><a href="#contact">Professional Support</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-6 col-md-3">
+                    <h4>Contact & Support</h4>
+                    <ul class="footer-links">
+                        <li><a href="#contact">Help Centre</a></li>
+                        <li><a href="mailto:support@urumb.com">Email Support</a></li>
+                        <li><a href="#contact">FAQs</a></li>
+                        <li><a href="#contact">Report an Issue</a></li>
+                    </ul>
+
+                    <div class="footer-socials">
+                        <a href="#" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
+                        <a href="#" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
+                        <a href="#" aria-label="LinkedIn"><i class="bi bi-linkedin"></i></a>
+                        <a href="#" aria-label="WhatsApp"><i class="bi bi-whatsapp"></i></a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+
+   
+
+     <!-- Footer bottom bar -->
+    <div class="footer-bottom">
+        <div class="container-fluid px-4 px-lg-5">
+            <div class="footer-bottom-inner">
+
+                <p>
+                    &copy; <span id="footerYear"></span> ServiceHub.
+                    All rights reserved.
+                </p>
+
+                <div class="footer-legal-links">
+                    <a href="#contact">Privacy Policy</a>
+                    <a href="#contact">Terms of Service</a>
+                    <a href="#contact">Cookie Policy</a>
+                </div>
+
+                <a href="#home" class="back-to-top">
+                    Back to top <i class="bi bi-arrow-up"></i>
+                </a>
+
+            </div>
+        </div>
+    </div>
+
+</footer>
+
+<script>
+    document.getElementById("footerYear").textContent =
+        new Date().getFullYear();
+</script>
+
+
+</div>
+
+<!-- Bootstrap JavaScript -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,21 @@
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyc
+
+# Virtual environment
+myenv/
+venv/
+.env
+.env.*
+
+# Django local database
+db.sqlite3
+
+# User-uploaded media
+media/
+
+# Local development files
+.DS_Store
+.vscode/

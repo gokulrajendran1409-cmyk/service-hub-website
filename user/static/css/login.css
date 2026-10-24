@@ -1,0 +1,85 @@
+body {
+            background: #F7F5EF;
+            font-family: Arial, sans-serif;
+            min-height: 100vh;
+        }
+
+        .navbar {
+            background: #123C2B;
+        }
+
+        .brand {
+            color: white;
+            font-size: 27px;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .login-wrapper {
+            min-height: calc(100vh - 70px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 15px;
+        }
+
+        .login-card {
+            width: 100%;
+            max-width: 440px;
+            background: white;
+            padding: 38px;
+            border-radius: 20px;
+            box-shadow: 0 12px 40px rgba(18, 60, 43, 0.10);
+        }
+
+        .login-title {
+            color: #123C2B;
+            font-weight: 700;
+        }
+
+        .form-label {
+            color: #24352D;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .form-control {
+            padding: 12px 14px;
+            border: 1px solid #DDE3DC;
+            border-radius: 10px;
+        }
+
+        .form-control:focus {
+            border-color: #3B7957;
+            box-shadow: 0 0 0 3px rgba(59, 121, 87, 0.12);
+        }
+
+        .btn-login {
+            background: #245D43;
+            color: white;
+            padding: 13px;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+        }
+
+        .btn-login:hover {
+            background: #123C2B;
+            color: white;
+        }
+
+        .custom-link {
+            color: #245D43;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .custom-link:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 480px) {
+            .login-card {
+                padding: 26px 21px;
+            }
+        }

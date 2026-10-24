@@ -1,0 +1,56 @@
+ body {
+            background: #f4f7f5;
+            font-family: Arial, sans-serif;
+        }
+
+        .navbar {
+            background: #123C2B;
+        }
+
+        .brand {
+            color: white;
+            font-size: 27px;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .register-card {
+            max-width: 850px;
+            margin: 45px auto;
+            border: none;
+            border-radius: 18px;
+            overflow: hidden;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+        }
+
+        .register-header {
+            background: #123c2b;
+            color: white;
+            padding: 28px;
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: #263b32;
+        }
+
+        .form-control, .form-select {
+            padding: 11px;
+            border-radius: 8px;
+        }
+
+        .btn-register {
+            background: #123c2b;
+            color: white;
+            padding: 12px;
+            border-radius: 8px;
+        }
+
+        .btn-register:hover {
+            background: #1b5b40;
+            color: white;
+        }
+
+        .required {
+            color: #dc3545;
+        }
