@@ -26,7 +26,9 @@ urlpatterns = [
     path('users/',include('user.urls')),
     path('professionals/',include('professional.urls')),
     path('admins/',include('admins.urls')),
-    path('services/',views.services,name="services"),
+    path('services/<int:id>/',views.services,name="services"),
+    path('all_services',views.all_services,name="all_services"),
+    
 ]
 
 if settings.DEBUG:

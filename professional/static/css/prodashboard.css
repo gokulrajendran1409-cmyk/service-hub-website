@@ -183,11 +183,18 @@
             overflow-wrap: anywhere;
         }
 
-        .status-badge {
+
+
+
+
+
+       .status {
+            display: inline-block;
             padding: 6px 10px;
             border-radius: 20px;
             font-size: 11px;
             font-weight: 700;
+            white-space: nowrap;
         }
 
         .status-pending {
@@ -204,6 +211,7 @@
             background: #ffe5e5;
             color: #b42318;
         }
+        .status-completed { background: #e1edff; color: #2058a7; }
 
         .avatar-circle {
             width: 32px;

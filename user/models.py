@@ -13,6 +13,11 @@ class userreg(models.Model):
 class category(models.Model):
     name=models.CharField(max_length=200)
     desc=models.TextField(blank=True)
+    image = models.ImageField(
+            upload_to="category_images/",
+            blank=True,
+            null=True
+        )
 
     def __str__(self):
         return f"{self.name}"

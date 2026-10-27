@@ -56,6 +56,32 @@
         .status-badge.accepted { background: #dcf6e6; color: #087342; }
         .status-badge.rejected, .status-badge.cancelled { background: #ffe1e1; color: #b42323; }
         .status-badge.completed { background: #e1edff; color: #2058a7; }
+
+
+.star-rating {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: 8px;
+}
+
+.star-rating input {
+    display: none;
+}
+
+.star-rating label {
+    font-size: 2.2rem;
+    color: #d5d5d5;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+/* Highlight stars from left to right */
+.star-rating label.active {
+    color: #f5b301;
+}
+
+
     </style>
 </head>
 
@@ -76,7 +102,7 @@
         <i class="bi bi-grid-1x2-fill"></i> Dashboard
     </a>
 
-    <a href="{% url 'services' %}" class="side-link">
+    <a href="{% url 'all_services' %}" class="side-link">
         <i class="bi bi-calendar2-plus"></i> Book a Service
     </a>
 
@@ -121,7 +147,7 @@
             <i class="bi bi-list fs-4"></i>
         </button>
 
-        <form action="{% url 'services' %}" method="GET"
+        <form action="{% url 'all_services' %}" method="GET"
               class="search-wrap">
             <i class="bi bi-search muted"></i>
             <input type="search" name="q"
@@ -166,11 +192,21 @@
                 </p>
             </div>
 
-            <a href="{% url 'services' %}" class="btn btn-success btn-sm px-3 py-2 d-inline-flex align-items-center gap-2">
+            <a href="{% url 'all_services' %}" class="btn btn-success btn-sm px-3 py-2 d-inline-flex align-items-center gap-2">
                 <i class="bi bi-calendar2-plus"></i>
                 <span>Book a Service</span>
             </a>
         </div>
+
+         {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible fade show">
+                {{ message }}
+                <button type="button" class="btn-close"
+                        data-bs-dismiss="alert"></button>
+            </div>
+        {% endfor %}
+    {% endif %}
 
         {% if bookings %}
             <div class="d-flex justify-content-between align-items-center mb-3">
@@ -236,7 +272,7 @@
                             <div class="detail-label mb-1">Contact Number</div>
                             <div class="detail-value">
                                 <i class="bi bi-telephone me-1 text-success"></i>
-                                {{ booking.contact_number }}
+                                {{ booking.professional.phone }}
                             </div>
                         </div>
 
@@ -266,10 +302,132 @@
                             {% endif %}
                         </span>
 
-                        <a href="{% url 'services' %}"
-                           class="btn btn-outline-success btn-sm">
-                            Browse Services
-                        </a>
+                        
+{% if booking.status == 'completed' %}
+    {% if not booking.review %}
+        <button type="button"
+                class="btn btn-outline-warning btn-sm"
+                data-bs-toggle="modal"
+                data-bs-target="#reviewModal{{ booking.id }}">
+            <i class="bi bi-star me-1"></i> Rate & Review
+        </button>
+
+        <!-- Review Modal -->
+        <div class="modal fade"
+             id="reviewModal{{ booking.id }}"
+             tabindex="-1"
+             aria-labelledby="reviewLabel{{ booking.id }}"
+             aria-hidden="true">
+
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content border-0 rounded-4">
+
+                    <form method="POST"
+                          action="{% url 'add_review' booking.id %}">
+                        {% csrf_token %}
+
+                        <div class="modal-header">
+                            <h5 class="modal-title"
+                                id="reviewLabel{{ booking.id }}">
+                                Rate Your Experience
+                            </h5>
+                            <button type="button"
+                                    class="btn-close"
+                                    data-bs-dismiss="modal"></button>
+                        </div>
+
+                        <div class="modal-body">
+                            <p class="text-muted">
+                                How was your experience with
+                                {{ booking.professional }}?
+                            </p>
+
+                            <label class="form-label fw-semibold">
+                                Your Rating
+                            </label>
+
+<div class="star-rating mb-3">
+    {% for star in "12345" %}
+        <input
+            type="radio"
+            id="star{{ star }}-{{ booking.id }}"
+            name="rating"
+            value="{{ star }}"
+            required
+        >
+        <label for="star{{ star }}-{{ booking.id }}"
+               title="{{ star }} star">★</label>
+    {% endfor %}
+</div>
+
+                            <label class="form-label fw-semibold"
+                                   for="comment{{ booking.id }}">
+                                Write a Review (Optional)
+                            </label>
+                            <textarea class="form-control"
+                                      id="comment{{ booking.id }}"
+                                      name="comment"
+                                      rows="4"
+                                      maxlength="1000"
+                                      placeholder="Tell us about your experience..."></textarea>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button"
+                                    class="btn btn-light"
+                                    data-bs-dismiss="modal">
+                                Cancel
+                            </button>
+                            <button type="submit"
+                                    class="btn btn-success">
+                                Submit Review
+                            </button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <span class="badge bg-success-subtle text-success">
+            <i class="bi bi-check-circle"></i> Reviewed
+        </span>
+    {% endif %}
+{% endif %}
+
+<script>
+document.querySelectorAll('.star-rating').forEach(function (rating) {
+    const inputs = rating.querySelectorAll('input');
+    const labels = rating.querySelectorAll('label');
+
+    function updateStars(value) {
+        inputs.forEach(function (input, index) {
+            labels[index].classList.toggle(
+                'active',
+                Number(input.value) <= value
+            );
+        });
+    }
+
+    inputs.forEach(function (input) {
+        input.addEventListener('change', function () {
+            updateStars(Number(input.value));
+        });
+    });
+});
+</script>
+
+
+
+                        {% if booking.status == 'pending' %}
+                        <form method="POST" action="{% url 'update_request' booking.id %}" class="d-inline">
+                                {% csrf_token %}
+                                <input type="hidden" name="status" value="cancelled">
+                                <button type="submit" class="btn btn-danger">
+                                    <i class="bi bi-check-circle me-1"></i> Cancel Request
+                                </button>
+                            </form>
+                        {% endif %}
                     </div>
                 </div>
             {% endfor %}
@@ -281,7 +439,7 @@
                 <p class="muted small mb-4">
                     Your service requests will appear here after you book a professional.
                 </p>
-                <a href="{% url 'services' %}" class="btn btn-success px-4 py-2">
+                <a href="{% url 'all_services' %}" class="btn btn-success px-4 py-2">
                     <i class="bi bi-search me-1"></i> Explore Services
                 </a>
             </div>
@@ -325,6 +483,7 @@
             if (window.innerWidth <= 991) closeSidebar();
         });
     });
+    
 </script>
 
 </body>

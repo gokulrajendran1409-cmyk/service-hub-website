@@ -114,6 +114,7 @@
                         <th>SERVICE DATE &amp; TIME</th>
                         <th>AMOUNT</th>
                         <th>STATUS</th>
+                        <th class="text-center">REVIEW</th>
                         <th class="text-end">ACTION</th>
                     </tr>
                 </thead>
@@ -149,19 +150,63 @@
 
                         <td>
                             {% if booking.status == "pending" %}
-                                <span class="status-badge status-pending">Pending</span>
+                                <span class="status status-pending">Pending</span>
                             {% elif booking.status == "accepted" %}
-                                <span class="status-badge status-approved">Accepted</span>
+                                <span class="status status-approved">Accepted</span>
                             {% elif booking.status == "rejected" %}
-                                <span class="status-badge status-rejected">Rejected</span>
+                                <span class="status status-rejected">Rejected</span>
                             {% elif booking.status == "completed" %}
-                                <span class="status-badge status-approved">Completed</span>
+                                <span class="status status-completed">Completed</span>
                             {% elif booking.status == "cancelled" %}
-                                <span class="status-badge bg-secondary text-white">Cancelled</span>
+                                <span class="status bg-secondary text-white">Cancelled</span>
                             {% else %}
-                                <span class="status-badge status-pending">{{ booking.status|title }}</span>
+                                <span class="status status-pending">{{ booking.status|title }}</span>
                             {% endif %}
                         </td>
+                        
+<td>
+    {% if booking.status == 'pending' or booking.status == 'accepted' or booking.status == 'cancelled' %}
+        <p class="text-muted mb-0">
+            Review will be available after completion of work.
+        </p>
+
+    {% elif booking.status == 'completed' %}
+        <div class="mt-3 p-3 rounded">
+
+            {% if booking.review %}
+                <div class="mb-2">
+    {% for star in "12345" %}
+        {% if forloop.counter <= booking.review.rating %}
+            <span class="text-warning fs-5">★</span>
+        {% else %}
+            <span class="text-secondary fs-5">★</span>
+        {% endif %}
+    {% endfor %}
+
+    <span class="ms-2 text-muted">
+        {{ booking.review.rating }}/5
+    </span>
+</div>
+
+                {% if booking.review.comment %}
+                    <p class="mb-2">{{ booking.review.comment }}</p>
+                {% else %}
+                    <p class="text-muted mb-2">No written comment.</p>
+                {% endif %}
+
+                <small class="text-muted">
+                    Reviewed on {{ booking.review.created_at|date:"d M Y" }}
+                </small>
+
+            {% else %}
+                <p class="text-muted mb-0">
+                    Customer has not submitted a review yet.
+                </p>
+            {% endif %}
+
+        </div>
+    {% endif %}
+</td>
 
                         <td class="text-end">
                             <button type="button"
@@ -325,6 +370,13 @@
                                     <i class="bi bi-check-circle me-1"></i> Accept Request
                                 </button>
                             </form>
+                            {% elif booking.status == 'accepted' %}
+                            <form method="POST" action="{% url 'update_booking_status' booking.id %}" class="d-inline">
+                                {% csrf_token %}
+                                <input type="hidden" name="status" value="completed">
+                                <button type="submit" class="btn btn-success">
+                                    <i class="bi bi-check-circle me-1"></i> Mark as Completed
+                                </button>
                         {% endif %}
 
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

@@ -141,12 +141,12 @@
                     <a class="nav-link" href="{% url 'index' %}">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'services' %}">
+                    <a class="nav-link" href="{% url 'all_services'  %}">
                         Services
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">My Bookings</a>
+                    <a class="nav-link" href="{% url 'mybookings' %}">My Bookings</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'userdashboard' %}">
@@ -351,6 +351,7 @@
                         ₹{{ professional.service_charge|default:"0.00" }}
                     </span>
                 </div>
+                <p class="text-secondary small"><span class="text-danger">Final charges may vary after inspection.</span></p>
 
                 <p class="text-secondary small mt-4 mb-0">
                     <span class="text-success">🔒</span>

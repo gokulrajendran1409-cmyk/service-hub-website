@@ -3,8 +3,8 @@ from django.contrib.auth.hashers import make_password
 from django.contrib.auth.hashers import check_password
 from django.contrib import messages
 from professional.forms import proregform
-from professional.models import proreg
-from user.models import Booking
+from professional.models import proreg,Review
+from user.models import Booking,userreg
 
 
 # Create your views here.
@@ -102,7 +102,7 @@ def my_bookings(request):
     # Show only bookings assigned to this professional
     bookings = Booking.objects.filter(
         professional=professional
-    ).select_related('customer').order_by('-created_at')
+    ).select_related('customer','review').order_by('-created_at')
 
     context = {
         'professional': professional,
@@ -116,14 +116,16 @@ def update_booking_status(request, id):
     if request.method != 'POST':
         return redirect('my_bookings')
 
-    email = request.session.get('email') or request.session.get('professional_email')
+    email = (
+        request.session.get('professional_email')
+        or request.session.get('email')
+    )
 
     if not email:
         return redirect('prologin')
 
     professional = get_object_or_404(proreg, email=email)
 
-    # Ensure this booking belongs to the logged-in professional
     booking = get_object_or_404(
         Booking,
         id=id,
@@ -132,10 +134,7 @@ def update_booking_status(request, id):
 
     new_status = request.POST.get('status')
 
-    if booking.status != 'pending':
-        messages.warning(request, 'This booking has already been processed.')
-
-    elif new_status in ['accepted', 'rejected']:
+    if booking.status == 'pending' and new_status in ['accepted', 'rejected']:
         booking.status = new_status
         booking.save(update_fields=['status'])
 
@@ -144,8 +143,20 @@ def update_booking_status(request, id):
             f'Booking #{booking.id} has been {new_status}.'
         )
 
+    elif booking.status == 'accepted' and new_status == 'completed':
+        booking.status = 'completed'
+        booking.save(update_fields=['status'])
+
+        messages.success(
+            request,
+            f'Booking #{booking.id} has been marked as completed.'
+        )
+
     else:
-        messages.error(request, 'Invalid booking status.')
+        messages.warning(
+            request,
+            'Invalid action or booking already processed.'
+        )
 
     return redirect('my_bookings')
 
@@ -153,4 +164,66 @@ def update_booking_status(request, id):
 def prologout(request):
     request.session.flush()
     messages.success(request, "Logged out successfully.")
-    return redirect('prologin')
+    return redirect('prologin')
+
+def add_review(request, id):
+    if request.method != 'POST':
+        return redirect('mybookings')
+
+    # Check customer login
+    email = request.session.get('email')
+
+    if not email:
+        return redirect('login')
+
+    customer = get_object_or_404(
+        userreg,
+        email__iexact=email
+    )
+
+    # Only allow the customer who owns this booking
+    booking = get_object_or_404(
+        Booking,
+        id=id,
+        customer=customer
+    )
+
+    # Reviews are allowed only after completion
+    if booking.status != 'completed':
+        messages.error(
+            request,
+            'You can review only completed bookings.'
+        )
+        return redirect('mybookings')
+
+    # Prevent duplicate reviews
+    if Review.objects.filter(booking=booking).exists():
+        messages.warning(
+            request,
+            'You have already reviewed this booking.'
+        )
+        return redirect('mybookings')
+
+    rating = request.POST.get('rating')
+    comment = request.POST.get('comment', '').strip()
+
+    # Validate rating
+    if rating not in ['1', '2', '3', '4', '5']:
+        messages.error(request, 'Please select a rating from 1 to 5.')
+        return redirect('mybookings')
+
+    # Save review
+    Review.objects.create(
+        booking=booking,
+        customer=customer,
+        professional=booking.professional,
+        rating=int(rating),
+        comment=comment
+    )
+
+    messages.success(
+        request,
+        'Thank you! Your review has been submitted.'
+    )
+
+    return redirect('mybookings')

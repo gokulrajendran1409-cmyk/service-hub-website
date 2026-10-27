@@ -120,7 +120,37 @@ def mybookings(request):
         customer=customer
     ).select_related('professional').order_by('-created_at')
 
+    
+
     return render(request, 'my_booking.html', {
         'customer': customer,
         'bookings': bookings,
     })
+
+def update_request(request, id):
+    if request.method!='POST':
+        return redirect('mybookings')
+    email = request.session.get('email')
+    if not email:
+            return redirect('login')
+    user=get_object_or_404(userreg,email=email)
+    booking = get_object_or_404(
+            Booking,
+            id=id,
+            customer=user
+        )
+    new_status = request.POST.get('status')
+    if booking.status != 'pending':
+            messages.warning(request, 'This booking has already been processed.')
+    
+    elif  new_status in ['accepted', 'rejected','cancelled']:
+        booking.status = new_status
+        booking.save(update_fields=['status'])
+        messages.success(
+                    request,
+                    f'Booking #{booking.id} has been {new_status}.'
+                )
+    else:
+        messages.error(request, 'status already accepted.')
+
+    return redirect('mybookings')    
